@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, _______, KC_VOLU, KC_VOLD, _______, _______,                                     _______, _______, KC_PGUP, KC_PGDN, _______, _______,
+      _______, _______, KC_VOLU, KC_VOLD, _______, _______,                                     _______, _______, KC_PGDN, KC_PGUP, _______, _______,
       _______, KC_MPRV, KC_MSEL, KC_MPLY, KC_MNXT, _______,                                     _______, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -333,4 +333,46 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(1, layer_state_cmp(state, _SYM));
     rgblight_set_layer_state(2, layer_state_cmp(state, _NAV));
     return state;
+}
+
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case NEXTWIN: // ALT+TAB
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      return false;
+    case PREVWIN: // ALT+SHIFT+TAB
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+        }
+        alt_tab_timer = timer_read();
+        register_code16(S(KC_TAB));
+      } else {
+        unregister_code16(S(KC_TAB));
+      }
+      return false;
+  }
+  return true;
+}
+
+void matrix_scan_user(void) {
+  if (is_alt_tab_active) {
+    if (timer_elapsed(alt_tab_timer) > 600) {
+      unregister_code(KC_LALT);
+      is_alt_tab_active = false;
+    }
+  }
 }
