@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SYM] = LAYOUT(
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
-     _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_SLSH, _______,
+     _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_BSLS, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -89,20 +89,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Nav Layer: Media, navigation
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      | VolUp| VolDn|      |      |                              |      | PgDn | PgUp |      |      |        |
+ * |        |      |ClsTab| Find |      |      |                              | VolUp|M Prev|M Lnch|M Play|M Next|        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |M Prev|M Lnch|M Play|M Next|      |                              |  ←   |   ↓  |   ↑  |   →  |      |        |
+ * |        |SelAll|Reload|      |NewTab|NxMtch|                              | VolDn|  ←   |   ↓  |   ↑  |   →  |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
+ * |        | Undo | Cut  | Copy |      | Paste|      |      |  |      |      |      |      | PgDn | PgUp |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, _______, KC_VOLU, KC_VOLD, _______, _______,                                     _______, _______, KC_PGDN, KC_PGUP, _______, _______,
-      _______, KC_MPRV, KC_MSEL, KC_MPLY, KC_MNXT, _______,                                     _______, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+      _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MSEL, KC_MNXT, _______,
+      _______, C(KC_A), C(KC_R), KC_NO  , C(KC_T), C(KC_G),                                     KC_VOLD, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
+      _______, C(KC_Z), C(KC_X), C(KC_C), KC_NO  , C(KC_V), _______, _______, _______, _______, KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -307,14 +307,17 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 DELETE THIS LINE TO UNCOMMENT (2/2) */
 
+#define HSV_INFERNO  11, 255, 255
+#define HSV_GRAPE   202, 255, 255
+
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 20, HSV_WHITE}
 );
 const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_CORAL}
+    {0, 20, HSV_INFERNO}
 );
 const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_MAGENTA}
+    {0, 20, HSV_GRAPE}
 );
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     my_layer1_layer,    //
