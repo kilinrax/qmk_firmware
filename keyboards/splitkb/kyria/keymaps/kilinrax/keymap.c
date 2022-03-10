@@ -24,13 +24,15 @@ enum layers {
 
 // Aliases for readability
 #define COLEMAK  DF(_COLEMAK_DH)
-
 #define SYM      OSL(_SYM)
+
+#define LSFT_OSM OSM(MOD_LSFT)
+#define RSFT_OSM OSM(MOD_RSFT)
 
 #define LCTL_SPC MT(MOD_LCTL, KC_SPC)
 #define LSFT_BSP MT(MOD_LSFT, KC_BSPC)
-#define RSFT_BSP MT(MOD_RSFT, KC_BSPC)
-#define NAV_SPC  LT(_NAV, KC_SPC)
+#define RSFT_SPC MT(MOD_RSFT, KC_SPC)
+#define NAV_BSPC  LT(_NAV, KC_BSPC)
 
 #define PREVWIN LSA(KC_TAB)
 #define NEXTWIN LALT(KC_TAB)
@@ -47,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |  Esc   |   Q  |   W  |   F  |   P  |   B  |                              |   J  |   L  |   U  |   Y  | ;  : |  =  +  |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |  Tab   |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  |Ctrl/' "|
+ * |  Tab   |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | Enter  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   D  |   V  | LGUI | LAlt |  | AltGr| RGUI |   K  |   H  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
@@ -58,8 +60,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_COLEMAK_DH] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                        KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN, KC_EQL,
      KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                        KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O , KC_ENT,
-     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LBRC, KC_LALT,    KC_RALT, KC_RBRC, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
-                                 PREVWIN,NEXTWIN,   SYM  ,LSFT_BSP,LCTL_SPC,    NAV_SPC,RSFT_BSP, SYM ,KC_WH_U ,KC_WH_D
+     LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LBRC, KC_LALT,    KC_RALT, KC_RBRC, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
+                                 PREVWIN,NEXTWIN,   SYM  ,LSFT_BSP,LCTL_SPC,    NAV_BSPC,RSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
     ),
 
 /*
@@ -79,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SYM] = LAYOUT(
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
-     _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_LBRC, _______, _______, _______, _______, KC_QUOT, KC_UNDS, KC_COMM,  KC_DOT, KC_SLSH, _______,
+     _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_SLSH, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
