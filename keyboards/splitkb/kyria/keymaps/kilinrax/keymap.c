@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "features/caps_word.h"
 
 enum layers {
     _COLEMAK_DH = 0,
@@ -31,8 +32,8 @@ enum layers {
 #define RSFT_OSM OSM(MOD_RSFT)
 
 #define LCTL_SPC MT(MOD_LCTL, KC_SPC)
-#define LSFT_BSP MT(MOD_LSFT, KC_BSPC)
-#define RSFT_SPC MT(MOD_RSFT, KC_SPC)
+#define RSFT_BSP MT(MOD_RSFT, KC_BSPC)
+#define LSFT_SPC MT(MOD_LSFT, KC_SPC)
 #define NAV_BSPC LT(_NAV, KC_BSPC)
 
 #define PREVWIN LSA(KC_TAB)
@@ -62,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                        KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN, KC_EQL,
      KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                        KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O , KC_ENT,
      LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LBRC, KC_LALT,    KC_RALT, KC_RBRC, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
-                                 PREVWIN,NEXTWIN,   SYM  ,LSFT_BSP,LCTL_SPC,    NAV_BSPC,RSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
+                                 PREVWIN,NEXTWIN,   SYM  ,RSFT_BSP,LCTL_SPC,    NAV_BSPC,LSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
     ),
 
 /*
@@ -345,6 +346,7 @@ bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (!process_caps_word(keycode, record)) { return false; }
   switch (keycode) {
     case NEXTWIN: // ALT+TAB
       if (record->event.pressed) {
