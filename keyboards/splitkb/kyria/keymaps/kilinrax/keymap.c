@@ -23,8 +23,9 @@ enum layers {
 
 
 // Aliases for readability
-#define COLEMAK  DF(_COLEMAK_DH)
+#define COLEMAK  TO(_COLEMAK_DH)
 #define SYM      OSL(_SYM)
+#define NAV      TO(_NAV)
 
 #define LSFT_OSM OSM(MOD_LSFT)
 #define RSFT_OSM OSM(MOD_RSFT)
@@ -32,7 +33,7 @@ enum layers {
 #define LCTL_SPC MT(MOD_LCTL, KC_SPC)
 #define LSFT_BSP MT(MOD_LSFT, KC_BSPC)
 #define RSFT_SPC MT(MOD_RSFT, KC_SPC)
-#define NAV_BSPC  LT(_NAV, KC_BSPC)
+#define NAV_BSPC LT(_NAV, KC_BSPC)
 
 #define PREVWIN LSA(KC_TAB)
 #define NEXTWIN LALT(KC_TAB)
@@ -82,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
      _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_BSLS, _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+                                 _______, _______, _______, _______, _______,   NAV  , _______, _______, _______, _______
     ),
 
 /*
@@ -103,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MSEL, KC_MNXT, _______,
       _______, C(KC_A), C(KC_R), KC_NO  , C(KC_T), C(KC_G),                                     KC_VOLD, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
       _______, C(KC_Z), C(KC_X), C(KC_C), KC_NO  , C(KC_V), _______, _______, _______, _______, KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+                                 _______, _______, _______, _______, _______, COLEMAK, _______, _______, _______, _______
     ),
 
 // /*
