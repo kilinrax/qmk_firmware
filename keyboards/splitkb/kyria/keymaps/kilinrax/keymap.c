@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Nav Layer: Media, navigation
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |ClsTab| Find |      |      |                              | VolUp|M Prev|M Lnch|M Play|M Next|        |
+ * |        |      |ClsTab| Find |      |      |                              | VolUp|M Prev|M Play|M Next|      |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |SelAll|Reload|      |NewTab|NxMtch|                              | VolDn|  ←   |   ↓  |   ↑  |   →  |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
@@ -101,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MSEL, KC_MNXT, _______,
+      _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______,
       _______, C(KC_A), C(KC_R), KC_NO  , C(KC_T), C(KC_G),                                     KC_VOLD, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
       _______, C(KC_Z), C(KC_X), C(KC_C), KC_NO  , C(KC_V), _______, _______, _______, _______, KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
                                  _______, _______, _______, _______, _______, COLEMAK, _______, _______, _______, _______
