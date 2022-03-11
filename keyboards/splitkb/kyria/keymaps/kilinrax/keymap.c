@@ -22,7 +22,6 @@ enum layers {
     _NAV,
 };
 
-
 // Aliases for readability
 #define COLEMAK  TO(_COLEMAK_DH)
 #define SYM      OSL(_SYM)
@@ -53,16 +52,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |  Tab   |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | Enter  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   D  |   V  | LGUI | LAlt |  | AltGr| RGUI |   K  |   H  | ,  < | . >  | /  ? | RShift |
+ * | LShift |   Z  |   X  |   C  |   D  |   V  | LGUI | LAlt |  | AltGr| Del  |   K  |   H  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |PrvWin|NxtWin| Sym  |LShft/|LCtrl/|  | Nav/ |RShift| Sym  |ScrlUp|ScrlDn|
  *                        |      |      |      |BSpace|Space |  | Space|BSpace|      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_COLEMAK_DH] = LAYOUT(
-     KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                        KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN, KC_EQL,
-     KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                        KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O , KC_ENT,
-     LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LBRC, KC_LALT,    KC_RALT, KC_RBRC, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
+     KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_EQL,
+     KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
+     LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LGUI, KC_LALT,    KC_RALT, KC_DEL, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
                                  PREVWIN,NEXTWIN,   SYM  ,RSFT_BSP,LCTL_SPC,    NAV_BSPC,LSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
     ),
 
@@ -346,41 +345,41 @@ bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_caps_word(keycode, record)) { return false; }
-  switch (keycode) {
-    case NEXTWIN: // ALT+TAB
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
-      } else {
-        unregister_code(KC_TAB);
-      }
-      return false;
-    case PREVWIN: // ALT+SHIFT+TAB
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code16(S(KC_TAB));
-      } else {
-        unregister_code16(S(KC_TAB));
-      }
-      return false;
-  }
-  return true;
+    if (!process_caps_word(keycode, record)) { return false; }
+    switch (keycode) {
+        case NEXTWIN: // ALT+TAB
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code(KC_TAB);
+            } else {
+                unregister_code(KC_TAB);
+            }
+            return false;
+        case PREVWIN: // ALT+SHIFT+TAB
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code16(S(KC_TAB));
+            } else {
+                unregister_code16(S(KC_TAB));
+            }
+            return false;
+    }
+    return true;
 }
 
 void matrix_scan_user(void) {
-  if (is_alt_tab_active) {
-    if (timer_elapsed(alt_tab_timer) > 600) {
-      unregister_code(KC_LALT);
-      is_alt_tab_active = false;
+    if (is_alt_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 600) {
+            unregister_code(KC_LALT);
+            is_alt_tab_active = false;
+        }
     }
-  }
 }
