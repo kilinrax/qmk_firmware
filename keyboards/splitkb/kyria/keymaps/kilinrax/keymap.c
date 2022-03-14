@@ -30,8 +30,8 @@ enum layers {
 #define LSFT_OSM OSM(MOD_LSFT)
 #define RSFT_OSM OSM(MOD_RSFT)
 
-#define LCTL_BSP MT(MOD_LCTL, KC_BSPC)
-#define RSFT_SPC MT(MOD_RSFT, KC_SPC)
+#define LCTL_SPC MT(MOD_LCTL, KC_SPC)
+#define RSFT_BSP MT(MOD_RSFT, KC_BSPC)
 #define LSFT_SPC MT(MOD_LSFT, KC_SPC)
 #define NAV_BSPC LT(_NAV, KC_BSPC)
 
@@ -54,15 +54,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   D  |   V  | LGUI | LAlt |  | AltGr| =  + |   K  |   H  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |PrvWin|NxtWin| Sym  |RShft/|LCtrl/|  | Nav/ |LShft/| Sym  |ScrlUp|ScrlDn|
- *                        |      |      |      |Space |BSpace|  |BSpace|Space |      |      |      |
+ *                        |PrvWin|NxtWin| Sym  |LShft/|LCtrl/|  | Nav/ |RShift| Sym  |ScrlUp|ScrlDn|
+ *                        |      |      |      |BSpace|Space |  | Space|BSpace|      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_COLEMAK_DH] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_DEL,
      KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
      LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LGUI, KC_LALT,    KC_RALT, KC_EQL, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
-                                 PREVWIN,NEXTWIN,   SYM  ,RSFT_SPC,LCTL_BSP,    NAV_BSPC,LSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
+                                 PREVWIN,NEXTWIN,   SYM  ,RSFT_BSP,LCTL_SPC,    NAV_BSPC,LSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
     ),
 
 /*
