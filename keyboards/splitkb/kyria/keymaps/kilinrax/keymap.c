@@ -54,15 +54,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   D  |   V  | LGUI | LAlt |  | AltGr| =  + |   K  |   H  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |PrvWin|NxtWin| Sym  |LShft/|LCtrl/|  | Nav/ |RShift| Sym  |ScrlUp|ScrlDn|
- *                        |      |      |      |BSpace|Space |  | Space|BSpace|      |      |      |
+ *                        |AppSw/|AppSw/| Sym  |LShft/|LCtrl/|  | Nav/ |RShift| Sym  |ScrlUp|Scrol/|
+ *                        |Enter |      |      |BSpace|Space |  | Space|BSpace|      |      |MdlMse|
  *                        `----------------------------------'  `----------------------------------'
  */
     [_COLEMAK_DH] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_DEL,
      KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
      LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LGUI, KC_LALT,    KC_RALT, KC_EQL, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
-                                 PREVWIN,NEXTWIN,   SYM  ,RSFT_BSP,LCTL_SPC,    NAV_BSPC,LSFT_SPC, SYM ,KC_WH_U ,KC_WH_D
+                                 KC_ENT,NEXTWIN,   SYM  ,RSFT_BSP,LCTL_SPC,    NAV_BSPC,LSFT_SPC,SYM,KC_WH_U ,KC_BTN3
     ),
 
 /*
@@ -284,35 +284,11 @@ bool oled_task_user(void) {
 }
 #endif
 
-/* DELETE THIS LINE TO UNCOMMENT (1/2)
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-
-    if (index == 0) {
-        // Volume control
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
-        }
-    } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-    }
-    return false;
-}
-#endif
-DELETE THIS LINE TO UNCOMMENT (2/2) */
-
 #define HSV_INFERNO  11, 255, 255
 #define HSV_GRAPE   202, 255, 255
 
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 20, HSV_WHITE}
+    {0, 20, HSV_CYAN}
 );
 const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 20, HSV_INFERNO}
@@ -328,6 +304,9 @@ const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
 void keyboard_post_init_user(void) {
     // Enable the LED layers
     rgblight_layers = my_rgb_layers;
+    rgblight_enable_noeeprom(); // Enables RGB, without saving settings
+    rgblight_sethsv_noeeprom(HSV_CYAN);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
 }
 
 layer_state_t default_layer_state_set_user(layer_state_t state) {
@@ -341,45 +320,62 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-bool is_alt_tab_active = false;
-uint16_t alt_tab_timer = 0;
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_caps_word(keycode, record)) { return false; }
-    switch (keycode) {
-        case NEXTWIN: // ALT+TAB
-            if (record->event.pressed) {
-                if (!is_alt_tab_active) {
-                    is_alt_tab_active = true;
-                    register_code(KC_LALT);
-                }
-                alt_tab_timer = timer_read();
-                register_code(KC_TAB);
-            } else {
-                unregister_code(KC_TAB);
-            }
-            return false;
-        case PREVWIN: // ALT+SHIFT+TAB
-            if (record->event.pressed) {
-                if (!is_alt_tab_active) {
-                    is_alt_tab_active = true;
-                    register_code(KC_LALT);
-                }
-                alt_tab_timer = timer_read();
-                register_code16(S(KC_TAB));
-            } else {
-                unregister_code16(S(KC_TAB));
-            }
-            return false;
-    }
     return true;
 }
 
+bool is_alt_tab_active = false;
+bool is_alt_shift_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
+#ifdef ENCODER_ENABLE
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) {
+        // Task switcher
+				if (!clockwise) {
+            if (!is_alt_tab_active) {
+                is_alt_tab_active = true;
+								is_alt_shift_tab_active = false;
+                unregister_code(KC_LSHIFT);
+                register_code(KC_LCMD);
+						}
+						alt_tab_timer = timer_read();
+						tap_code(KC_TAB);
+				} else {
+						if (!is_alt_shift_tab_active) {
+								is_alt_shift_tab_active = true;
+                is_alt_tab_active = false;
+                register_code(KC_LCMD);
+                register_code(KC_LSHIFT);
+						}
+						alt_tab_timer = timer_read();
+						tap_code(KC_TAB);
+        }
+    } else if (index == 1) {
+        // Mouse scroll, 3x speed
+        if (clockwise) {
+            tap_code(KC_WH_U);
+            tap_code(KC_WH_U);
+            tap_code(KC_WH_U);
+        } else {
+            tap_code(KC_WH_D);
+            tap_code(KC_WH_D);
+            tap_code(KC_WH_D);
+        }
+    }
+    return false;
+}
+#endif
+
 void matrix_scan_user(void) {
-    if (is_alt_tab_active) {
-        if (timer_elapsed(alt_tab_timer) > 600) {
-            unregister_code(KC_LALT);
+    if (is_alt_tab_active || is_alt_shift_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 1000) {
+            unregister_code(KC_LCMD);
+            if (is_alt_shift_tab_active)
+                unregister_code(KC_LSHIFT);
             is_alt_tab_active = false;
+            is_alt_shift_tab_active = false;
         }
     }
 }
