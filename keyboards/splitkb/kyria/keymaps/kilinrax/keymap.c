@@ -31,9 +31,11 @@ enum layers {
 #define RSFT_OSM OSM(MOD_RSFT)
 
 #define LCTL_SPC MT(MOD_LCTL, KC_SPC)
+#define LCTL_ENT MT(MOD_LCTL, KC_ENT)
 #define RSFT_BSP MT(MOD_RSFT, KC_BSPC)
 #define LSFT_SPC MT(MOD_LSFT, KC_SPC)
 #define NAV_BSPC LT(_NAV, KC_BSPC)
+#define NAV_TAB  LT(_NAV, KC_TAB)
 
 #define PREVWIN LSA(KC_TAB)
 #define NEXTWIN LALT(KC_TAB)
@@ -52,17 +54,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |  Tab   |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | Enter  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   D  |   V  | LGUI | LAlt |  | AltGr| =  + |   K  |   H  | ,  < | . >  | /  ? | RShift |
+ * | LAlt   |   Z  |   X  |   C  |   D  |   V  |LShift| LCmd |  | RCmd |RShift|   K  |   H  | ,  < | . >  | /  ? | RAlt   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |AppSw/|AppSw/| Sym  |LShft/|LCtrl/|  | Nav/ |RShift| Sym  |ScrlUp|Scrol/|
- *                        |Enter |      |      |BSpace|Space |  | Space|BSpace|      |      |MdlMse|
+ *                        |AppSw/| #  ~ | Sym  |BSpace|LCtrl/|  | Nav/ |Space | Sym  | =  + |Scrol/|
+ *                        |Enter |      |      |      |Enter |  | Tab  |      |      |      |MdlMse|
  *                        `----------------------------------'  `----------------------------------'
  */
     [_COLEMAK_DH] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_DEL,
      KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
-     LSFT_OSM, KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V , KC_LGUI, KC_LALT,    KC_RALT, KC_EQL, KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH,RSFT_OSM,
-                                 KC_ENT,NEXTWIN,   SYM  ,RSFT_BSP,LCTL_SPC,    NAV_BSPC,LSFT_SPC,SYM,KC_WH_U ,KC_BTN3
+     KC_LALT , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V ,LSFT_OSM, KC_LCMD,    KC_RCMD,RSFT_OSM,KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RALT,
+                                 KC_ENT, KC_NUHS,   SYM  , KC_BSPC,LCTL_ENT,    NAV_TAB,  KC_SPC,SYM, KC_EQL ,KC_BTN3
     ),
 
 /*
