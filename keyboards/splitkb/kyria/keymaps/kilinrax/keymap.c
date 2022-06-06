@@ -68,6 +68,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 /*
+ * Nav Layer: Media, navigation
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |ClsTab| Find |      |      |                              | VolUp|M Prev|M Play|M Next|      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |SelAll|Reload|      |NewTab|NxMtch|                              | VolDn|  ←   |   ↓  |   ↑  |   →  |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        | Undo | Cut  | Copy |      | Paste|      |      |  |      |      |      |      | PgDn | PgUp |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_NAV] = LAYOUT(
+      _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MNXT, KC_NO  , _______,
+      _______, C(KC_A), C(KC_R), KC_NO  , C(KC_T), C(KC_G),                                     KC_VOLD, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
+      _______, C(KC_Z), C(KC_X), C(KC_C), KC_NO  , C(KC_V), _______, _______, _______, _______, KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
+                                 _______, _______, _______, _______, _______, COLEMAK, _______, _______, _______, _______
+    ),
+
+/*
  * Sym Layer: Numbers and symbols
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
@@ -85,28 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
      _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_BSLS, _______,
-                                 _______, _______, _______, _______, _______,   NAV  , _______, _______, _______, _______
-    ),
-
-/*
- * Nav Layer: Media, navigation
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |ClsTab| Find |      |      |                              | VolUp|M Prev|M Play|M Next|      |        |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |SelAll|Reload|      |NewTab|NxMtch|                              | VolDn|  ←   |   ↓  |   ↑  |   →  |        |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        | Undo | Cut  | Copy |      | Paste|      |      |  |      |      |      |      | PgDn | PgUp |      |        |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
- */
-    [_NAV] = LAYOUT(
-      _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______,
-      _______, C(KC_A), C(KC_R), KC_NO  , C(KC_T), C(KC_G),                                     KC_VOLD, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
-      _______, C(KC_Z), C(KC_X), C(KC_C), KC_NO  , C(KC_V), _______, _______, _______, _______, KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
-                                 _______, _______, _______, _______, _______, COLEMAK, _______, _______, _______, _______
+                                 _______,KC_TILDE, _______, _______, _______,   NAV  , _______, _______, KC_PIPE, _______
     ),
 
 // /*
@@ -139,6 +139,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
+
+bool is_osm_shift_active = false;
+void oneshot_mods_changed_user(uint8_t mods) {
+    oled_set_cursor(16, 5);
+    if (mods & MOD_MASK_SHIFT) {
+        is_osm_shift_active = true;
+        oled_write_P(PSTR("SHIFT\n"), false);
+    } else {
+        is_osm_shift_active = false;
+        // let oled_task user handle blanking, otherwise it'll flicker
+    }
+}
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
@@ -266,6 +278,15 @@ bool oled_task_user(void) {
                 break;
             default:
                 oled_write_P(PSTR("Undefined\n"), false);
+        }
+        oled_set_cursor(16, 5);
+        if (caps_word_get()) {
+            oled_write_P(PSTR("CAPS \n"), false);
+        } else if ((keyboard_report->mods & (MOD_BIT(KC_LSFT)))
+                    | is_osm_shift_active) {
+            oled_write_P(PSTR("SHIFT\n"), false);
+        } else {
+            oled_write_P(PSTR("     \n"), false);
         }
     } else {
         // clang-format off
