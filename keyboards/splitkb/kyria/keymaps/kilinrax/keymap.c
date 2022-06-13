@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | LAlt   |   Z  |   X  |   C  |   D  |   V  |LShift| LCmd |  | RCmd |RShift|   K  |   H  | ,  < | . >  | /  ? | RAlt   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |AppSw/| #  ~ | Sym  |BSpace|LCtrl/|  | Nav/ |Space | Sym  | =  + |Scrol/|
+ *                        |AppSw/| \  | | Sym  |BSpace|LCtrl/|  | Nav/ |Space | Sym  | `  ~ |Scrol/|
  *                        |Enter |      |      |      |Enter |  | Tab  |      |      |      |MdlMse|
  *                        `----------------------------------'  `----------------------------------'
  */
@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_DEL,
      KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
      KC_LALT , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V ,LSFT_OSM, KC_LCMD,    KC_RCMD,RSFT_OSM,KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RALT,
-                                 KC_ENT, KC_NUHS,   SYM  , KC_BSPC,LCTL_ENT,    NAV_TAB,  KC_SPC,SYM, KC_EQL ,KC_BTN3
+                                 KC_ENT, KC_BSLS,   SYM  , KC_BSPC,LCTL_ENT,    NAV_TAB,  KC_SPC, SYM, KC_GRV ,KC_BTN3
     ),
 
 /*
@@ -96,17 +96,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  1   |  2   |  3   |  4   |  5   |                              |   6  |  7   |  8   |  9   |  0   |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |  `   |  [   |  ]   |  -   |  _   |      |      |  |      |      |   "  |  '   |  {   |  }   |  \   |        |
+ * |        |      |  [   |  ]   |  -   |  _   |      |      |  |      |      |   "  |  '   |  {   |  }   |  /   |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |  +   |      |      |      |  |      |      |      |  =   |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_SYM] = LAYOUT(
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
-     _______ , KC_GRV , KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_BSLS, _______,
-                                 _______,KC_TILDE, _______, _______, _______,   NAV  , _______, _______, KC_PIPE, _______
+     _______ ,   KC_NO, KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_SLSH, _______,
+                                 _______, KC_PLUS, _______, _______, _______,   NAV  , _______, _______, KC_EQL, _______
     ),
 
 // /*
