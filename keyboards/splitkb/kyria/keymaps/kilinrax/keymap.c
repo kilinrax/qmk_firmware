@@ -32,10 +32,12 @@ enum layers {
 
 #define LCTL_SPC MT(MOD_LCTL, KC_SPC)
 #define LCTL_ENT MT(MOD_LCTL, KC_ENT)
+#define LCTL_TAB MT(MOD_LCTL, KC_TAB)
 #define RSFT_BSP MT(MOD_RSFT, KC_BSPC)
 #define LSFT_SPC MT(MOD_LSFT, KC_SPC)
 #define NAV_BSPC LT(_NAV, KC_BSPC)
 #define NAV_TAB  LT(_NAV, KC_TAB)
+#define NAV_ENT  LT(_NAV, KC_ENT)
 
 #define PREVWIN LSA(KC_TAB)
 #define NEXTWIN LALT(KC_TAB)
@@ -52,40 +54,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |  Esc   |   Q  |   W  |   F  |   P  |   B  |                              |   J  |   L  |   U  |   Y  | ;  : | Del    |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |  Tab   |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | Enter  |
+ * |  Tab   |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | =   +  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LAlt   |   Z  |   X  |   C  |   D  |   V  |LShift| LCmd |  | RCmd |RShift|   K  |   H  | ,  < | . >  | /  ? | RAlt   |
+ * |LAlt / (|   Z  |   X  |   C  |   D  |   V  |LShift| LCmd |  | RCmd |RShift|   K  |   H  | ,  < | .  > | /  ? |RAlt / )|
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |AppSw/| \  | | Sym  |BSpace|LCtrl/|  | Nav/ |Space | Sym  | `  ~ |Scrol/|
- *                        |Enter |      |      |      |Enter |  | Tab  |      |      |      |MdlMse|
+ *                        |Enter |      |      |      |Tab   |  |Enter |      |      |      |MdlMse|
  *                        `----------------------------------'  `----------------------------------'
  */
     [_COLEMAK_DH] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_DEL,
-     KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
-     KC_LALT , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V ,LSFT_OSM, KC_LCMD,    KC_RCMD,RSFT_OSM,KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RALT,
-                                 KC_ENT, KC_BSLS,   SYM  , KC_BSPC,LCTL_ENT,    NAV_TAB,  KC_SPC, SYM, KC_GRV ,KC_BTN3
+     KC_TAB  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_EQL,
+     KC_LAPO , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V ,LSFT_OSM, KC_LCMD,    KC_RCMD,RSFT_OSM,KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RAPC,
+                                 KC_ENT, KC_BSLS,   SYM  , KC_BSPC,LCTL_TAB,    NAV_ENT,  KC_SPC, SYM, KC_GRV ,KC_BTN3
     ),
 
 /*
  * Nav Layer: Media, navigation
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |ClsTab| Find |      |      |                              | VolUp|M Prev|M Play|M Next|      |        |
+ * |        |      |      |      |      |      |                              |      |      | PgDn | PgUp |      |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |SelAll|Reload|      |NewTab|NxMtch|                              | VolDn|  ←   |   ↓  |   ↑  |   →  |        |
+ * |        |      |      |      |      |      |                              |      |  ←   |   ↓  |   ↑  |   →  |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        | Undo | Cut  | Copy |      | Paste|      |      |  |      |      |      |      | PgDn | PgUp |      |        |
+ * |        |M Prev|      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |Volum/|M Next|      |      |      |  |      |      |      |      |      |
+ *                        |M Play|      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, KC_NO  , C(KC_W), C(KC_F), KC_NO  , KC_NO  ,                                     KC_VOLU, KC_MPRV, KC_MPLY, KC_MNXT, KC_NO  , _______,
-      _______, C(KC_A), C(KC_R), KC_NO  , C(KC_T), C(KC_G),                                     KC_VOLD, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
-      _______, C(KC_Z), C(KC_X), C(KC_C), KC_NO  , C(KC_V), _______, _______, _______, _______, KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
-                                 _______, _______, _______, _______, _______, COLEMAK, _______, _______, _______, _______
+      _______, KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  ,                                     KC_NO  , KC_NO  , KC_PGDN, KC_PGUP, KC_NO  , _______,
+      _______, KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  ,                                     KC_NO  , KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______,
+      _______, KC_MPRV, KC_NO  , KC_NO  , KC_NO  , KC_NO  , _______, _______, _______, _______, KC_NO  , KC_NO  , KC_NO  , KC_NO  , KC_NO  , _______,
+                                 KC_MPLY, KC_MNXT, _______, _______, _______, COLEMAK, _______, _______, _______, _______
     ),
 
 /*
@@ -98,15 +100,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |      |  [   |  ]   |  -   |  _   |      |      |  |      |      |   "  |  '   |  {   |  }   |  /   |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |  +   |      |      |      |  |      |      |      |  =   |      |
+ *                        |      |  |   |      |      |      |  |      |      |      |  ~   |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_SYM] = LAYOUT(
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
-     _______ ,   KC_NO, KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_SLSH, _______,
-                                 _______, KC_PLUS, _______, _______, _______,   NAV  , _______, _______, KC_EQL, _______
+     _______ ,   KC_NO, KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_SLSH , _______,
+                                 KC_PIPE, KC_EQL , _______, _______, _______,   NAV  , _______, _______,KC_TILDE, _______
     ),
 
 // /*
@@ -355,25 +357,33 @@ uint16_t alt_tab_timer = 0;
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
-        // Task switcher
-				if (!clockwise) {
-            if (!is_alt_tab_active) {
-                is_alt_tab_active = true;
-								is_alt_shift_tab_active = false;
-                unregister_code(KC_LSHIFT);
-                register_code(KC_LCMD);
+        if (get_highest_layer(layer_state|default_layer_state) == _NAV) {
+						if (clockwise) {
+								tap_code(KC_VOLD);
+						} else {
+								tap_code(KC_VOLU);
 						}
-						alt_tab_timer = timer_read();
-						tap_code(KC_TAB);
-				} else {
-						if (!is_alt_shift_tab_active) {
-								is_alt_shift_tab_active = true;
-                is_alt_tab_active = false;
-                register_code(KC_LCMD);
-                register_code(KC_LSHIFT);
-						}
-						alt_tab_timer = timer_read();
-						tap_code(KC_TAB);
+        } else {
+            // Task switcher
+            if (!clockwise) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    is_alt_shift_tab_active = false;
+                    unregister_code(KC_LSHIFT);
+                    register_code(KC_LCMD);
+                }
+                alt_tab_timer = timer_read();
+                tap_code(KC_TAB);
+            } else {
+                if (!is_alt_shift_tab_active) {
+                    is_alt_shift_tab_active = true;
+                    is_alt_tab_active = false;
+                    register_code(KC_LCMD);
+                    register_code(KC_LSHIFT);
+                }
+                alt_tab_timer = timer_read();
+                tap_code(KC_TAB);
+            }
         }
     } else if (index == 1) {
         // Mouse scroll, 3x speed
