@@ -45,6 +45,7 @@ enum layers {
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
 // produces the key `tap` when tapped (i.e. pressed and released).
+//
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -54,19 +55,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |  Esc   |   Q  |   W  |   F  |   P  |   B  |                              |   J  |   L  |   U  |   Y  | ;  : | Del    |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |  =  +  |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | Enter  |
+ * |  `  ¬  |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  | =  +   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |LAlt / (|   Z  |   X  |   C  |   D  |   V  |LShift| LCmd |  | RCmd |RShift|   K  |   H  | ,  < | .  > | /  ? |RAlt / )|
+ * |  LAlt  |   Z  |   X  |   C  |   D  |   V  |LShift| LCmd |  | RCmd |RShift|   K  |   H  | ,  < | .  > | /  ? | RAlt   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |AppSw/| \  | | Sym  |BSpace|LCtrl/|  | Nav/ |Space | Sym  | `  ~ |Scrol/|
+ *                        |AppSw/| \  | | Sym  |BSpace|LCtrl/|  | Nav/ |Space | Sym  | #  ~ |Scrol/|
  *                        |Enter |      |      |      |Tab   |  |Enter |      |      |      |MdlMse|
  *                        `----------------------------------'  `----------------------------------'
  */
     [_COLEMAK_DH] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_F  ,   KC_P ,   KC_B ,                                       KC_J,   KC_L ,  KC_U ,   KC_Y ,KC_SCLN,  KC_DEL,
-     KC_EQL  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_ENT,
-     KC_LAPO , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V ,LSFT_OSM, KC_LCMD,    KC_RCMD,RSFT_OSM,KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RAPC,
-                                 KC_ENT, KC_BSLS,   SYM  , KC_BSPC,LCTL_TAB,    NAV_ENT,  KC_SPC, SYM, KC_GRV ,KC_BTN3
+     KC_GRV  , KC_A ,  KC_R   ,  KC_S  ,   KC_T ,   KC_G ,                                       KC_M,   KC_N ,  KC_E ,   KC_I ,  KC_O ,  KC_EQL,
+     KC_LALT , KC_Z ,  KC_X   ,  KC_C  ,   KC_D ,   KC_V ,LSFT_OSM, KC_LCMD,    KC_RCMD,RSFT_OSM,KC_K,   KC_H ,KC_COMM, KC_DOT ,KC_SLSH, KC_RALT,
+                                 KC_ENT, KC_NUBS,   SYM  , KC_BSPC,LCTL_TAB,    NAV_ENT,  KC_SPC, SYM, KC_NUHS,KC_BTN3
     ),
 
 /*
@@ -98,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  1   |  2   |  3   |  4   |  5   |                              |   6  |  7   |  8   |  9   |  0   |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |  [   |  ]   |  -   |  _   |      |      |  |      |      |   "  |  '   |  {   |  }   |  /   |        |
+ * |        |      |  {   |  }   |  -   |  _   |      |      |  |      |      |   "  |  '   |  [   |  ]   |  /   |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |  |   |      |      |      |  |      |      |      |  ~   |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
@@ -107,8 +108,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SYM] = LAYOUT(
      _______ , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
      _______ ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , _______,
-     _______ ,   KC_NO, KC_LBRC, KC_RBRC, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LCBR, KC_RCBR, KC_SLSH , _______,
-                                 _______, KC_PIPE, _______, _______, _______,   NAV  , _______, _______,KC_TILDE, _______
+     _______ ,   KC_NO, KC_LCBR, KC_RCBR, KC_MINS, KC_UNDS, _______, _______, _______, _______, KC_DQUO, KC_QUOT, KC_LBRC, KC_RBRC, KC_SLSH , _______,
+                                 _______, KC_BSLS, _______, _______, _______,   NAV  , _______, _______, KC_PIPE, _______
     ),
 
 // /*
