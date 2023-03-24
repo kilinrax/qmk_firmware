@@ -21,8 +21,12 @@
 #    define RGBLIGHT_SAT_STEP  8
 #    define RGBLIGHT_VAL_STEP  8
 #    define RGBLIGHT_LIMIT_VAL 255
+#    define RGBLIGHT_SPLIT
+#    define RGBLED_SPLIT { 10, 10 }
 #    define RGBLIGHT_SLEEP
+#    define RGBLIGHT_TIMEOUT 300000
 #    define RGBLIGHT_LAYERS
+#    define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
 #endif
 
 #ifdef OLED_ENABLE

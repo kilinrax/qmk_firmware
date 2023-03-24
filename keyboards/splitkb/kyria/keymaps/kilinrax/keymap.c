@@ -331,32 +331,135 @@ bool oled_task_user(void) {
 #endif
 
 #ifdef RGBLIGHT_LAYERS
-
 #define HSV_C64BLUE 160, 255, 255
 #define HSV_YAMGOLD  28, 255, 255
 #define HSV_GRAPE   202, 255, 255
 
-layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_sethsv(HSV_C64BLUE);
-    return state;
+void rgblight_sethsv_pair(int h, int s, int v, int i) {
+    rgblight_sethsv_at(h,s,v,i);
+    rgblight_sethsv_at(h,s,v,19-i);
+}
+
+void rgblight_setgradient(int h, int s, int v) {
+    float f = h / 128 + 1 + (h > 200 ? 1.5 : 0);
+    rgblight_sethsv_pair(h+9*f,s,v,0);
+    rgblight_sethsv_pair(h+6*f,s,v,1);
+    rgblight_sethsv_pair(h+3*f,s,v,2);
+    rgblight_sethsv_pair(h+2*f,s,v,3);
+    rgblight_sethsv_pair(h    ,s,v,4);
+    rgblight_sethsv_pair(h-f  ,s,v,7);
+    rgblight_sethsv_pair(h-4*f,s,v,6);
+    rgblight_sethsv_pair(h-6*f,s,v,5);
+    rgblight_sethsv_pair(h-7*f,s,v,8);
+    rgblight_sethsv_pair(h-8*f,s,v,9);
+/* rev 2.1
+    rgblight_sethsv_pair(h-9,s,v,7);
+    rgblight_sethsv_pair(h-6,s,v,6);
+    rgblight_sethsv_pair(h-3,s,v,5);
+    rgblight_sethsv_pair(h-2,s,v,0);
+    rgblight_sethsv_pair(h,  s,v,4);
+    rgblight_sethsv_pair(h+2,s,v,1);
+    rgblight_sethsv_pair(h+3,s,v,3);
+    rgblight_sethsv_pair(h+5,s,v,8);
+    rgblight_sethsv_pair(h+7,s,v,2);
+    rgblight_sethsv_pair(h+9,s,v,9);
+*/
+}
+/*
+void keyboard_post_init_user (void) {
+    rgblight_enable_noeeprom();
+    rgblight_setgradient(HSV_C64BLUE);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
       case _SYM:
-        rgblight_sethsv(HSV_YAMGOLD);
+        rgblight_setgradient(HSV_YAMGOLD);
         break;
       case _NAV:
-        rgblight_sethsv(HSV_GRAPE);
+        rgblight_setgradient(HSV_GRAPE);
         break;
       default: //  for any other layers, or the default layer
-        rgblight_sethsv(HSV_C64BLUE);
+        rgblight_setgradient(HSV_C64BLUE);
         break;
     }
     return state;
 }
+*/
+const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { 0, 20, HSV_C64BLUE }
+);
+const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { 0, 20, HSV_YAMGOLD }
+);
+const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { 0, 20, HSV_GRAPE }
+);
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_layer1_layer,    //
+    my_layer2_layer,    // Overrides other layers
+    my_layer3_layer     // Overrides other layers
+);
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    rgblight_layers = my_rgb_layers;
+    rgblight_enable_noeeprom(); // Enables RGB, without saving settings
+}
+
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(0, layer_state_cmp(state, _COLEMAK_DH));
+    return state;
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(1, layer_state_cmp(state, _SYM));
+    rgblight_set_layer_state(2, layer_state_cmp(state, _NAV));
+    rgblight_set();
+    return state;
+}
 
 #endif
+
+static uint32_t key_timer;           // timer for last keyboard activity, use 32bit value and function to make longer idle time possible
+static void refresh_rgb(void);       // refreshes the activity timer and RGB, invoke whenever any activity happens
+static void check_rgb_timeout(void); // checks if enough time has passed for RGB to timeout
+bool is_rgb_timeout = false;         // store if RGB has timed out or not in a boolean
+
+void refresh_rgb(void) {
+    key_timer = timer_read32(); // store time of last refresh
+    if (is_rgb_timeout)
+    {
+        is_rgb_timeout = false;
+        rgblight_wakeup();
+    }
+}
+void check_rgb_timeout(void) {
+    if (!is_rgb_timeout && timer_elapsed32(key_timer) > RGBLIGHT_TIMEOUT) // check if RGB has already timeout and if enough time has passed
+    {
+        rgblight_suspend();
+        is_rgb_timeout = true;
+    }
+}
+/* Then, call the above functions from QMK's built in post processing functions like so */
+/* Runs at the end of each scan loop, check if RGB timeout has occured or not */
+void housekeeping_task_user(void) {
+#ifdef RGBLIGHT_TIMEOUT
+    check_rgb_timeout();
+#endif
+}
+/* Runs after each key press, check if activity occurred */
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef RGBLIGHT_TIMEOUT
+    if (record->event.pressed)
+        refresh_rgb();
+#endif
+}
+/* Runs after each encoder tick, check if activity occurred */
+void post_encoder_update_user(uint8_t index, bool clockwise) {
+#ifdef RGBLIGHT_TIMEOUT
+    refresh_rgb();
+#endif
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_caps_word(keycode, record)) { return false; }
