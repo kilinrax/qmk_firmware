@@ -20,10 +20,17 @@
 #    define RGBLIGHT_HUE_STEP  8
 #    define RGBLIGHT_SAT_STEP  8
 #    define RGBLIGHT_VAL_STEP  8
-#    define RGBLIGHT_LIMIT_VAL 150
+#    define RGBLIGHT_LIMIT_VAL 255
+#    define RGBLIGHT_SLEEP
+#    define RGBLIGHT_LAYERS
+#endif
+
+#ifdef OLED_ENABLE
+#    define OLED_TIMEOUT 5000
+#    define OLED_FADE_OUT
+#    define OLED_FADE_OUT_INTERVAL 10
 #endif
 
 // Lets you roll mod-tap keys
 #define IGNORE_MOD_TAP_INTERRUPT
 
-#define RGBLIGHT_LAYERS
