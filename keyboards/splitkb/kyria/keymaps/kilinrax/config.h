@@ -21,13 +21,19 @@
 #    define RGBLIGHT_SAT_STEP  8
 #    define RGBLIGHT_VAL_STEP  8
 #    define RGBLIGHT_LIMIT_VAL 255
-#    define RGBLIGHT_SPLIT
-#    define RGBLED_SPLIT { 10, 10 }
 #    define RGBLIGHT_SLEEP
 #    define RGBLIGHT_TIMEOUT 300000
 #    define RGBLIGHT_LAYERS
 #    define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
 #endif
+
+#if 0
+#    define RGBLIGHT_SPLIT
+#    define RGBLED_SPLIT { 10, 10 }
+#endif
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
 
 #ifdef OLED_ENABLE
 #    define OLED_TIMEOUT 5000
