@@ -333,7 +333,7 @@ bool oled_task_user(void) {
 #ifdef RGBLIGHT_LAYERS
 
 #define HSV_C64BLUE 160, 255, 255
-#define HSV_INFERNO  11, 255, 255
+#define HSV_YAMGOLD  28, 255, 255
 #define HSV_GRAPE   202, 255, 255
 
 layer_state_t default_layer_state_set_user(layer_state_t state) {
@@ -344,7 +344,7 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
       case _SYM:
-        rgblight_sethsv(HSV_INFERNO);
+        rgblight_sethsv(HSV_YAMGOLD);
         break;
       case _NAV:
         rgblight_sethsv(HSV_GRAPE);
