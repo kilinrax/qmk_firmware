@@ -330,6 +330,12 @@ bool oled_task_user(void) {
 }
 #endif
 
+#if 1
+#define RGBLIGHT_LED_MAP { 0, 1, 3, 2, 4, 7, 6, 5, 8, 9, 19, 18, 15, 16, 17, 14, 12, 13, 11, 10 }
+#else
+#define RGBLIGHT_LED_MAP { 9, 8, 5, 6, 7, 4, 2, 3, 1, 0, 10, 11, 13, 12, 14, 17, 16, 15, 18, 19 }
+#endif
+
 #ifdef RGBLIGHT_LAYERS
 #define HSV_C64BLUE 160, 255, 255
 #define HSV_YAMGOLD  28, 255, 255
@@ -352,48 +358,43 @@ void rgblight_setgradient(int h, int s, int v) {
     rgblight_sethsv_pair(h-6*f,s,v,5);
     rgblight_sethsv_pair(h-7*f,s,v,8);
     rgblight_sethsv_pair(h-8*f,s,v,9);
-/* rev 2.1
-    rgblight_sethsv_pair(h-9,s,v,7);
-    rgblight_sethsv_pair(h-6,s,v,6);
-    rgblight_sethsv_pair(h-3,s,v,5);
-    rgblight_sethsv_pair(h-2,s,v,0);
-    rgblight_sethsv_pair(h,  s,v,4);
-    rgblight_sethsv_pair(h+2,s,v,1);
-    rgblight_sethsv_pair(h+3,s,v,3);
-    rgblight_sethsv_pair(h+5,s,v,8);
-    rgblight_sethsv_pair(h+7,s,v,2);
-    rgblight_sethsv_pair(h+9,s,v,9);
-*/
-}
-/*
-void keyboard_post_init_user (void) {
-    rgblight_enable_noeeprom();
-    rgblight_setgradient(HSV_C64BLUE);
 }
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-      case _SYM:
-        rgblight_setgradient(HSV_YAMGOLD);
-        break;
-      case _NAV:
-        rgblight_setgradient(HSV_GRAPE);
-        break;
-      default: //  for any other layers, or the default layer
-        rgblight_setgradient(HSV_C64BLUE);
-        break;
-    }
-    return state;
-}
-*/
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { 0, 20, HSV_C64BLUE }
+    { 0, 1, 144, 255, 255 },
+    { 1, 1, 146, 255, 255 },
+    { 2, 1, 148, 255, 255 },
+    { 3, 1, 152, 255, 255 },
+    { 4, 1, 158, 255, 255 },
+    { 5, 1, 160, 255, 255 },
+    { 6, 1, 164, 255, 255 },
+    { 7, 1, 166, 255, 255 },
+    { 8, 1, 172, 255, 255 },
+    { 9, 1, 178, 255, 255 }
 );
 const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { 0, 20, HSV_YAMGOLD }
+    { 0, 1, 20, 255, 255 },
+    { 1, 1, 21, 255, 255 },
+    { 2, 1, 22, 255, 255 },
+    { 3, 1, 24, 255, 255 },
+    { 4, 1, 27, 255, 255 },
+    { 5, 1, 28, 255, 255 },
+    { 6, 1, 30, 255, 255 },
+    { 7, 1, 31, 255, 255 },
+    { 8, 1, 34, 255, 255 },
+    { 9, 1, 37, 255, 255 }
 );
 const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { 0, 20, HSV_GRAPE }
+    { 0, 1, 229, 255, 255 },
+    { 1, 1, 220, 255, 255 },
+    { 2, 1, 211, 255, 255 },
+    { 3, 1, 208, 255, 255 },
+    { 4, 1, 202, 255, 255 },
+    { 5, 1, 199, 255, 255 },
+    { 6, 1, 190, 255, 255 },
+    { 7, 1, 184, 255, 255 },
+    { 8, 1, 181, 255, 255 },
+    { 9, 1, 178, 255, 255 }
 );
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     my_layer1_layer,    //
