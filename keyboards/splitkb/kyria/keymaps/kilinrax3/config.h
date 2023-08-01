@@ -16,5 +16,24 @@
 
 #pragma once
 
+#ifdef RGB_MATRIX_ENABLE
+#    define RGB_MATRIX_TIMEOUT 300000
+#    define RGB_DISABLE_WHEN_USB_SUSPENDED
+#    define RGB_TRIGGER_ON_KEYDOWN
+#endif
+
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
+
+#ifdef OLED_ENABLE
+#    define OLED_TIMEOUT 300000
+#    define OLED_FADE_OUT
+#    define OLED_FADE_OUT_INTERVAL 10
+#endif
+
+#define LED_CAPS_LOCK_PIN 24
+#define LED_PIN_ON_STATE 0
+
 // Lets you roll mod-tap keys
 #define IGNORE_MOD_TAP_INTERRUPT

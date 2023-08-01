@@ -42,6 +42,8 @@ enum layers {
 #define PREVWIN LSA(KC_TAB)
 #define NEXTWIN LALT(KC_TAB)
 
+#define PLS_MIN LSFT(KC_NUBS)
+
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
 // produces the key `tap` when tapped (i.e. pressed and released).
@@ -352,11 +354,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+#ifdef ENCODER_ENABLE
 bool is_alt_tab_active = false;
 bool is_alt_shift_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
-#ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         if (get_highest_layer(layer_state|default_layer_state) == _NAV) {
