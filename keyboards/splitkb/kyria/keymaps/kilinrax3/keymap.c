@@ -333,17 +333,94 @@ bool oled_task_user(void) {
 #define RGB_INFERNO 255,  66,   0
 #define RGB_GRAPE   191,   0, 255
 
+#define HSV_C64BLUE 160, 255, 255
+#define HSV_YAMGOLD  28, 255, 255
+#define HSV_HEATWAV  21, 255, 255
+#define HSV_VIVORNG  16, 255, 255
+#define HSV_PHASER   13, 255, 255
+#define HSV_MAGMA     8, 255, 255
+#define HSV_GRAPE   202, 255, 255
+
+void rgb_matrix_set_color_hsv(unsigned char index, unsigned char h, unsigned char s, unsigned char v) {
+    unsigned char region, remainder, p, q, t, r, g, b;
+    if (s == 0) {
+        r = v; g = v; b = v;
+    } else {
+        region = h / 43;
+        remainder = (h - (region * 43)) * 6;
+
+        p = (v * (255 - s)) >> 8;
+        q = (v * (255 - ((s * remainder) >> 8))) >> 8;
+        t = (v * (255 - ((s * (255 - remainder)) >> 8))) >> 8;
+
+        switch (region)
+        {
+            case 0:
+                r = v; g = t; b = p;
+                break;
+            case 1:
+                r = q; g = v; b = p;
+                break;
+            case 2:;
+                r = p; g = v; b = t;
+                break;
+            case 3:
+                r = p; g = q; b = v;
+                break;
+            case 4:
+                r = t; g = p; b = v;
+                break;
+            default:
+                r = v; g = p; b = q;
+        }
+    }
+    rgb_matrix_set_color(index, r, g, b);
+}
+
+void rgb_matrix_set_color_hsv_gradient(unsigned char h, unsigned char s, unsigned char v, float step) {
+   unsigned char start_h = h - 12 * step;
+   unsigned char cur_h;
+   for (unsigned char i = 0; i <= 24; i++) {
+       cur_h = start_h + i * step;
+       rgb_matrix_set_color_hsv(i+6, cur_h, s, v);
+       rgb_matrix_set_color_hsv(i+37, cur_h, s, v);
+       // underglow
+       if (i == 1) {
+           rgb_matrix_set_color_hsv(5, cur_h, s, v);
+           rgb_matrix_set_color_hsv(36, cur_h, s, v);
+       } else if (i == 3) {
+           rgb_matrix_set_color_hsv(4, cur_h, s, v);
+           rgb_matrix_set_color_hsv(35, cur_h, s, v);
+       } else if (i == 12) {
+           rgb_matrix_set_color_hsv(3, cur_h, s, v);
+           rgb_matrix_set_color_hsv(34, cur_h, s, v);
+       } else if (i == 24) {
+           rgb_matrix_set_color_hsv(2, cur_h, s, v);
+           rgb_matrix_set_color_hsv(33, cur_h, s, v);
+       } else if (i == 22) {
+           rgb_matrix_set_color_hsv(1, cur_h, s, v);
+           rgb_matrix_set_color_hsv(32, cur_h, s, v);
+       } else if (i == 20) {
+           rgb_matrix_set_color_hsv(0, cur_h, s, v);
+           rgb_matrix_set_color_hsv(31, cur_h, s, v);
+       }
+   }
+}
+
 bool rgb_matrix_indicators_user(void) {
     uint8_t layer = biton32(layer_state);
     switch (layer) {
         case 0:
-            rgb_matrix_set_color_all(RGB_CYAN);
+            //rgb_matrix_set_color_all(RGB_CYAN);
+            rgb_matrix_set_color_hsv_gradient(HSV_C64BLUE, -2.5);
             break;
         case 1:
-            rgb_matrix_set_color_all(RGB_INFERNO);
+            //rgb_matrix_set_color_all(RGB_INFERNO);
+            rgb_matrix_set_color_hsv_gradient(HSV_PHASER, 0.5);
             break;
         case 2:
-            rgb_matrix_set_color_all(RGB_GRAPE);
+            //rgb_matrix_set_color_all(RGB_GRAPE);
+            rgb_matrix_set_color_hsv_gradient(HSV_GRAPE, -1.5);
             break;
     }
     return true;
