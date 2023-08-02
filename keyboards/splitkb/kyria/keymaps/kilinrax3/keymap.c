@@ -377,34 +377,81 @@ void rgb_matrix_set_color_hsv(unsigned char index, unsigned char h, unsigned cha
     rgb_matrix_set_color(index, r, g, b);
 }
 
-void rgb_matrix_set_color_hsv_gradient(unsigned char h, unsigned char s, unsigned char v, float step) {
-   unsigned char start_h = h - 12 * step;
-   unsigned char cur_h;
-   for (unsigned char i = 0; i <= 24; i++) {
-       cur_h = start_h + i * step;
-       rgb_matrix_set_color_hsv(i+6, cur_h, s, v);
-       rgb_matrix_set_color_hsv(i+37, cur_h, s, v);
-       // underglow
-       if (i == 1) {
-           rgb_matrix_set_color_hsv(5, cur_h, s, v);
-           rgb_matrix_set_color_hsv(36, cur_h, s, v);
-       } else if (i == 3) {
-           rgb_matrix_set_color_hsv(4, cur_h, s, v);
-           rgb_matrix_set_color_hsv(35, cur_h, s, v);
-       } else if (i == 12) {
-           rgb_matrix_set_color_hsv(3, cur_h, s, v);
-           rgb_matrix_set_color_hsv(34, cur_h, s, v);
-       } else if (i == 24) {
-           rgb_matrix_set_color_hsv(2, cur_h, s, v);
-           rgb_matrix_set_color_hsv(33, cur_h, s, v);
-       } else if (i == 22) {
-           rgb_matrix_set_color_hsv(1, cur_h, s, v);
-           rgb_matrix_set_color_hsv(32, cur_h, s, v);
-       } else if (i == 20) {
-           rgb_matrix_set_color_hsv(0, cur_h, s, v);
-           rgb_matrix_set_color_hsv(31, cur_h, s, v);
-       }
-   }
+void rgb_matrix_set_color_hsv_pair(unsigned char index, unsigned char h, unsigned char s, unsigned char v) {
+    rgb_matrix_set_color_hsv(index,    h, s, v);
+    rgb_matrix_set_color_hsv(index+31, h, s, v);
+}
+
+void rgb_matrix_set_color_hsv_gradient(unsigned char h, unsigned char s, unsigned char v, signed char width) {
+    unsigned char start_h = h - width/2;
+    /*
+    rgb_matrix_set_color_hsv_pair( 0, start_h + width*6.2/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 1, start_h + width*9.4/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 2, start_h + width*13.6/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 3, start_h + width*10.4/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 4, start_h + width*6.2/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 5, start_h + width*1.3/15.1, s, v );
+    */
+    rgb_matrix_set_color_hsv_pair( 0, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 1, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 2, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 3, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 4, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 5, 0, 0, 0 );
+    /*
+    rgb_matrix_set_color_hsv_pair( 6, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 7, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 8, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 9, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 10, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 11, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 12, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 13, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 14, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 15, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 16, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 17, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 18, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 19, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 20, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 21, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 22, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 23, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 24, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 25, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 26, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 27, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 28, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 29, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 30, 0, 0, 0 );
+    rgb_matrix_set_color_hsv_pair( 31, 0, 0, 0 );
+    */
+
+    rgb_matrix_set_color_hsv_pair( 11, start_h + width*0, s, v );
+    rgb_matrix_set_color_hsv_pair( 6, start_h + width*0.7/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 12, start_h + width*2.6/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 7,  start_h + width*2.9/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 13, start_h + width*5.1/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 8,  start_h + width*5.2/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 19, start_h + width*5.8/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 25, start_h + width*6.5/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 14, start_h + width*7/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 9,  start_h + width*7.4/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 20, start_h + width*7.7/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 26, start_h + width*8.4/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 15, start_h + width*9/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 10, start_h + width*9.1/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 21, start_h + width*9.7/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 27, start_h + width*10.4/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 16, start_h + width*11/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 22, start_h + width*11.3/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 28, start_h + width*11.9/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 17, start_h + width*12/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 23,  start_h + width*12.6/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 29, start_h + width*13.3/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 18, start_h + width*13.6/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 24, start_h + width*14.3/15.1, s, v );
+    rgb_matrix_set_color_hsv_pair( 30, start_h + width*15.1/15.1, s, v );
 }
 
 bool rgb_matrix_indicators_user(void) {
@@ -412,15 +459,15 @@ bool rgb_matrix_indicators_user(void) {
     switch (layer) {
         case 0:
             //rgb_matrix_set_color_all(RGB_CYAN);
-            rgb_matrix_set_color_hsv_gradient(HSV_C64BLUE, -2.5);
+            rgb_matrix_set_color_hsv_gradient(HSV_C64BLUE, -30);
             break;
         case 1:
             //rgb_matrix_set_color_all(RGB_INFERNO);
-            rgb_matrix_set_color_hsv_gradient(HSV_PHASER, 0.5);
+            rgb_matrix_set_color_hsv_gradient(HSV_PHASER, 6);
             break;
         case 2:
             //rgb_matrix_set_color_all(RGB_GRAPE);
-            rgb_matrix_set_color_hsv_gradient(HSV_GRAPE, -1.5);
+            rgb_matrix_set_color_hsv_gradient(HSV_GRAPE, -15);
             break;
     }
     return true;
